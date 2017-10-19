@@ -3,6 +3,8 @@
 #include <ssGUIManager.h>
 #include <ssBusinessManager.h>
 
+// ramura creata din vscode
+
 int main ()
 {
     printf("\nHello SenseShell!\n");
