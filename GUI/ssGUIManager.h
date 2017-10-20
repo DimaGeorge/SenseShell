@@ -6,6 +6,7 @@ class ssGUIManager
 {
 public:
     void hello();
+    static void run();
 };
 
 

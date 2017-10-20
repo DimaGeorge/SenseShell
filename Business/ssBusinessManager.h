@@ -5,6 +5,7 @@ class ssBusinessManager
 {
 public:
     void hello();
+    static void run();
 };
 
 
