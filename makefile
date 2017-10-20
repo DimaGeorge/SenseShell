@@ -7,7 +7,7 @@ SOURCES = \
 	Data/ssDataManager.cpp 
 
 build:
-	g++ -pthread -Wall $(SOURCES) -I./Business -I./GUI -I./Data -I./Status -I./utils -o app
+	g++ -pthread -Wall $(SOURCES) -I./Business -I./GUI -I./Data -I./Status -I./utils -o app -std=c++11
 
 clean:
 	rm app

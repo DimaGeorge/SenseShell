@@ -13,7 +13,7 @@ int main ()
 
     std::thread guiThread(ssGUIManager::run);               //spawn thread for gui
     std::thread businessThread(ssBusinessManager::run);     //spawn thread for business
-
+    
     gui.hello();
     business.hello();
     
