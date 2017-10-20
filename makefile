@@ -9,9 +9,10 @@ SOURCES = \
 build:
 	g++ -pthread -Wall $(SOURCES) -I./Business -I./GUI -I./Data -I./Status -I./utils -o app -std=c++11
 
+# clean a fost integrat in run, ca sa stearga automat executabilul dupa rulare ;)
 clean:
 	rm app
 
 run: build
 	./app
-
+	rm app
