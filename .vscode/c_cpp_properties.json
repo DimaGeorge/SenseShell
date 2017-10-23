@@ -34,7 +34,8 @@
                 "${workspaceRoot}",
                 "${workspaceRoot}/Business",
                 "${workspaceRoot}/GUI",
-                "/usr/include/linux"
+                "/usr/include/linux",
+                "${workspaceRoot}/Status"
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",
