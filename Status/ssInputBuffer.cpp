@@ -62,10 +62,6 @@ void ssInputBuffer::pop(void)
     printf("Debug: ssInputBuffer::pop");
 }
 
-bool ssInputBuffer::wasModified()
-{
-    return true;
-}
 
 std::string ssInputBuffer::read()
 {
