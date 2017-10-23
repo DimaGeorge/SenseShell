@@ -2,6 +2,8 @@
 
 void ssInputBuffer::set(const char *begining, int size)
 {
+    this->clean();
+    
     stateMutex.lock();
     state = Modifying;
     stateMutex.unlock();
@@ -17,6 +19,7 @@ void ssInputBuffer::set(const char *begining, int size)
 
     printf("Debug: ssInputBuffer::set");
 }
+
 void ssInputBuffer::clean(void)
 {
     stateMutex.lock();
@@ -62,13 +65,18 @@ void ssInputBuffer::pop(void)
     printf("Debug: ssInputBuffer::pop");
 }
 
-bool ssInputBuffer::wasModified()
-{
-    return true;
-}
 
 std::string ssInputBuffer::read()
 {
+    stateMutex.lock();
+    state = Modifying;
+    stateMutex.unlock();
+
     std::string dataS(data.begin(), data.end());
+    
+    stateMutex.lock();
+    state = Unmodified;
+    stateMutex.unlock();
+    
     return dataS;
 }

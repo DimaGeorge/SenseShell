@@ -3,7 +3,7 @@
 
 ssStatusTable* ssStatusTable::instance = NULL;
 
-ssStatusTable::ssStatusTable()
+ssStatusTable::ssStatusTable() : processStatus(ProcessStatus::On)
 {
     /*nimic aici*/
 }
@@ -35,6 +35,11 @@ void ssStatusTable::destroyInstance()
 ssInputBuffer& ssStatusTable::getRefToInputBuffer()
 {
     return inputBuffer;
+}
+
+ssOutputBuffer& ssStatusTable::getRefToOutputBuffer()
+{
+    return outputBuffer;
 }
 
 void ssStatusTable::hello()

@@ -1,6 +1,8 @@
 #ifndef _SSBUSINESSMANAGER_H
 #define _SSBUSINESSMANAGER_H
 
+#include <ssStatusTable.h>
+
 class ssBusinessManager
 {
 public:
@@ -14,7 +16,7 @@ private:
     ~ssBusinessManager();
 
     static ssBusinessManager* instance;
-
+    ssStatusTable &statusTable;
     /* nu sunt implementate */
     ssBusinessManager(const ssBusinessManager&)             = delete;
     ssBusinessManager operator= (const ssBusinessManager&)  = delete;

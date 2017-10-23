@@ -5,6 +5,8 @@ SOURCES = \
 	Status/ssStatusTable.cpp \
 	Status/ssBuffer.cpp\
 	Status/ssInputBuffer.cpp \
+	Status/ssOutputBuffer.cpp \
+	Status/ssSugestionBuffer.cpp \
 	GUI/ssGUIManager.cpp \
 	Business/ssBusinessManager.cpp \
 	Data/ssDataManager.cpp 
