@@ -11,10 +11,9 @@ public:
     std::string read(void);
 
 private:
+    /* interfata destinata numai layer-ului gui */
     void set(const char *, int);
-    
     void clean(void);
-    
     void push(char ch);
     void pop(void);
 

@@ -1,10 +1,11 @@
 #include <ssBusinessManager.h>
 #include <ssDataManager.h>
 #include <stdio.h>
+#include <thread>
 
 ssBusinessManager* ssBusinessManager::instance = NULL;
 
-ssBusinessManager::ssBusinessManager()
+ssBusinessManager::ssBusinessManager() : statusTable(ssStatusTable::getInstance())
 {
     /*nimic */
 }
@@ -35,14 +36,18 @@ void  ssBusinessManager::destroyInstance ()
 void ssBusinessManager::hello()
 {
     printf("Hello from Business manager!\n");
-    ssDataManager data;
-    data.hello();
-}
+        ssDataManager data;
+        data.hello();
+    }
 
-void ssBusinessManager::run()
-{
-    for(int i = 0; i < 100; i++)
+    void ssBusinessManager::run()
     {
-        printf("bussines\n");
+        ssStatusTable &statusTableLocalRef = ssStatusTable::getInstance();
+
+    while(statusTableLocalRef.getProcessStatus() == ssStatusTable::ProcessStatus::On)
+    {
+        std::chrono::milliseconds timeToSleep(500);
+        std::this_thread::sleep_for(timeToSleep);
+        printf("ssBusinessManager::run\n");
     }
 }

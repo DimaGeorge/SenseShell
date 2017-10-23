@@ -13,3 +13,4 @@ bool ssBuffer::wasModified(void)
         return false;
     }
 }
+

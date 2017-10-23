@@ -15,11 +15,9 @@ public:
         Modifying
     };
 
-    virtual void set(const char *, int)       = 0;
+    virtual void set(const char *, int) = 0;
     virtual void clean(void)            = 0;
 
-    virtual void push(char ch)          = 0;
-    virtual void pop(void)              = 0;
     
     virtual std::string read()          = 0;
 
