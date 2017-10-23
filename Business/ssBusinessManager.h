@@ -4,8 +4,20 @@
 class ssBusinessManager
 {
 public:
-    void hello();
+    static ssBusinessManager&   getInstance ();
+    static void                 destroyInstance ();
     static void run();
+
+    void hello();
+private:
+    ssBusinessManager();
+    ~ssBusinessManager();
+
+    static ssBusinessManager* instance;
+
+    /* nu sunt implementate */
+    ssBusinessManager(const ssBusinessManager&)             = delete;
+    ssBusinessManager operator= (const ssBusinessManager&)  = delete;
 };
 
 
