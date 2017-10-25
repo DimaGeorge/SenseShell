@@ -22,3 +22,11 @@ clean:
 run: build
 	./app
 	rm app
+
+doit:
+	qmake
+	make -f Makefile
+	rm Makefile
+	rm *.o
+	./app
+	rm app
