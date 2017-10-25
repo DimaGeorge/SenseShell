@@ -3,7 +3,7 @@
 
 ssStatusTable* ssStatusTable::instance = NULL;
 
-ssStatusTable::ssStatusTable() : processStatus(ProcessStatus::On)
+ssStatusTable::ssStatusTable() : processStatus(ProcessStatus::On), inputBuffer("ls -l", 5)
 {
     /*nimic aici*/
 }

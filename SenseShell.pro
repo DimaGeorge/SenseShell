@@ -9,6 +9,7 @@ CONFIG = qt thread x11
 
 # Input
 HEADERS += Business/ssBusinessManager.h \
+           Business/ssInterpreter.h \
            Data/ssDataManager.h \
            GUI/ssGUIManager.h \
            Status/ssBuffer.h \
@@ -19,6 +20,7 @@ HEADERS += Business/ssBusinessManager.h \
            utils/utils.h
 
 SOURCES += Business/ssBusinessManager.cpp \
+           Business/ssInterpreter.cpp \
            Data/ssDataManager.cpp \
            GUI/ssGUIManager.cpp \
            Status/main.cpp \

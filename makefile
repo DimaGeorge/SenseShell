@@ -28,5 +28,5 @@ doit:
 	make -f Makefile
 	rm Makefile
 	rm *.o
-	./app
-	rm app
+	./SenseShell
+	rm SenseShell
