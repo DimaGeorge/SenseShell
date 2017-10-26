@@ -11,8 +11,8 @@ public:
     enum State
     {
         Modified,
-        Unmodified,
-        Modifying
+        Modifying,
+        Unmodified
     };
 
     virtual void set(const char *, int) = 0;
