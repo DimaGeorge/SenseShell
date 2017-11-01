@@ -61,6 +61,7 @@ void ssBusinessManager::hello()
             std::string output = interpreter.execute(inputCommand);
             outputBuffer.set(output.c_str(), output.size());
             inputBuffer.executionDone();
+            continue;
         }
 
         if(inputBuffer.wasModified())

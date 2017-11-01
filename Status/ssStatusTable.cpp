@@ -1,9 +1,12 @@
 #include <ssStatusTable.h>
 #include <stdio.h>
+#include <string.h>
 
 ssStatusTable* ssStatusTable::instance = NULL;
 
-ssStatusTable::ssStatusTable() : processStatus(ProcessStatus::On), inputBuffer("ls -l", 5)
+char debug[] = "man ls";
+
+ssStatusTable::ssStatusTable() : processStatus(ProcessStatus::On), inputBuffer(debug, strlen(debug))
 {
     /*nimic aici*/
 }
