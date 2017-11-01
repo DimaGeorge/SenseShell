@@ -22,7 +22,8 @@ void ssOutputBuffer::set(const char *begining, int size)
     state = Modified;
     stateMutex.unlock();
 
-    std::cout << debug << std::endl;
+  //  std::cout << debug << std::endl;
+
 }
 
 void ssOutputBuffer::clean(void)

@@ -4,8 +4,8 @@
 #include <ssStatusTable.h>
 #include <stdio.h>
 #include <stdlib.h> // prevents error for exit on line 18 when compiling with gcc
-
 #include <QtGui>
+
 
 class ssGUIManager
 {
@@ -14,7 +14,7 @@ public:
     static void destroyInstance(void);
     static void run();
 
-    void hello();
+    void sendCommand(char* command);
 
 private:
     ssStatusTable &statusTable;

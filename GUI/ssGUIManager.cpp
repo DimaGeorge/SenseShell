@@ -1,6 +1,7 @@
 #include <ssGUIManager.h>
 #include <stdio.h>
 #include <ssInputBuffer.h>
+#include "SenseForm.h"
 
 ssGUIManager* ssGUIManager::instance = NULL;
 
@@ -33,17 +34,18 @@ void ssGUIManager::destroyInstance(void)
     }
 }
 
-void ssGUIManager::hello()
+void ssGUIManager::sendCommand(char* command)
 {
-    printf("Hello from ssGUIManager!\n");
+    ssInputBuffer &inputBuffer=statusTable.getRefToInputBuffer();
+    inputBuffer.set(command,sizeof(command));
+    inputBuffer.execute();
 }
 
 void ssGUIManager::run()
 {
     QApplication app(0, NULL);
-    QLabel label("Hello, world!");
-    label.show();
+    SenseForm senseWindow;
+    senseWindow.show();
     app.exec();
-
     ssStatusTable::getInstance().setProcessOff();
 }

@@ -30,5 +30,6 @@ doit:
 	rm Makefile
 	rm *.o
 	rm *.pro
+	rm moc_*.cpp
 	./SenseShell
-	rm SenseShell
+#	rm SenseShell
