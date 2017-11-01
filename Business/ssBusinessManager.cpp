@@ -39,10 +39,10 @@ void ssBusinessManager::hello()
     printf("Hello from Business manager!\n");
         ssDataManager data;
         data.hello();
-    }
+}
 
-    void ssBusinessManager::run()
-    {
+void ssBusinessManager::run()
+{
         ssStatusTable &statusTableLocalRef = ssStatusTable::getInstance();
         
         ssOutputBuffer &outputBuffer = statusTableLocalRef.getRefToOutputBuffer();

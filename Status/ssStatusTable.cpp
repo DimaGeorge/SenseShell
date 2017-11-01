@@ -4,9 +4,7 @@
 
 ssStatusTable* ssStatusTable::instance = NULL;
 
-char debug[] = "man ls";
-
-ssStatusTable::ssStatusTable() : processStatus(ProcessStatus::On), inputBuffer(debug, strlen(debug))
+ssStatusTable::ssStatusTable() : processStatus(ProcessStatus::On), inputBuffer("ls", 2)
 {
     /*nimic aici*/
 }
