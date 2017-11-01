@@ -1,4 +1,30 @@
 #include <ssInputBuffer.h>
+#include <thread>
+
+ssInputBuffer::ssInputBuffer(const char*a, int b) : execution(Execution::Ready)
+{
+    set(a,b);
+}
+
+void ssInputBuffer::execute(void)
+{
+    executionMutex.lock();
+    execution = Execution::Ready;
+    executionMutex.unlock();
+
+    while(execution != Execution::Done)
+    {
+        std::chrono::milliseconds timeToSleep(2);
+        std::this_thread::sleep_for(timeToSleep);
+    }
+}
+
+void ssInputBuffer::executionDone (void)
+{
+    executionMutex.lock();
+    execution = Execution::Done;
+    executionMutex.unlock();
+}
 
 void ssInputBuffer::set(const char *begining, int size)
 {

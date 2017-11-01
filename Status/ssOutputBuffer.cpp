@@ -1,5 +1,6 @@
 #include <ssOutputBuffer.h>
 #include <stdio.h>
+#include <iostream>
 
 void ssOutputBuffer::set(const char *begining, int size)
 {
@@ -9,16 +10,20 @@ void ssOutputBuffer::set(const char *begining, int size)
     state = Modifying;
     stateMutex.unlock();
 
+    std::string debug = "";
+
     for(int i = 0; i < size; i++)
     {
         data.push_back(begining[i]);
+        debug += begining[i];
     }
 
     stateMutex.lock();
     state = Modified;
     stateMutex.unlock();
 
-    printf("Debug: ssOutputBuffer::set");
+  //  std::cout << debug << std::endl;
+
 }
 
 void ssOutputBuffer::clean(void)
