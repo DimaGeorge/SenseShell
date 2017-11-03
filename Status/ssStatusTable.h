@@ -3,6 +3,7 @@
 
 #include<ssInputBuffer.h>
 #include<ssOutputBuffer.h>
+#include<ssSugestionBuffer.h>
 
 class ssStatusTable
 {
@@ -21,14 +22,15 @@ public:
     void hello();
     ssInputBuffer&      getRefToInputBuffer ();
     ssOutputBuffer&     getRefToOutputBuffer ();
+    ssSugestionBuffer&  getRefToSuggestionBuffer ();
 
     void            setProcessOff (void)       {   processStatus = ProcessStatus::Off;         };
     ProcessStatus   getProcessStatus (void)    {   return processStatus;                       };
 private:
     /*fields*/
-    ssInputBuffer   inputBuffer;
-    ssOutputBuffer  outputBuffer;
-
+    ssInputBuffer       inputBuffer;
+    ssOutputBuffer      outputBuffer;
+    ssSugestionBuffer   sugestionBuffer;
     ProcessStatus processStatus;
 
     static ssStatusTable* instance;

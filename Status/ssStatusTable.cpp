@@ -43,6 +43,11 @@ ssOutputBuffer& ssStatusTable::getRefToOutputBuffer()
     return outputBuffer;
 }
 
+ssSugestionBuffer& ssStatusTable::getRefToSuggestionBuffer()
+{
+    return sugestionBuffer;
+}
+
 void ssStatusTable::hello()
 {
     printf("Hello from StatusTable");
