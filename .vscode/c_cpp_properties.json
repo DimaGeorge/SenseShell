@@ -39,7 +39,10 @@
                 "/usr/include/qt4",
                 "/usr/include/c++/6",
                 "/usr/include/x86_64-linux-gnu/c++/6",
-                "/usr/include/x86_64-linux-gnu/c++/7"
+                "/usr/include/x86_64-linux-gnu/c++/7",
+                "/usr/include/qt4/QtGui",
+                "/usr/include/c++/6/tr1",
+                "/usr/include/qt4/QtCore"
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",

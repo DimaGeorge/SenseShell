@@ -22,7 +22,11 @@
 #run: build
 #	./app
 #	rm app
-
+clean:
+	rm Makefile
+	rm *.o
+	rm *.pro
+	rm moc_*.cpp
 doit:
 	qmake -project
 	qmake
@@ -32,4 +36,4 @@ doit:
 	rm *.pro
 	rm moc_*.cpp
 	./SenseShell
-	rm SenseShell
+	#rm SenseShell

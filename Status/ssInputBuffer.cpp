@@ -50,7 +50,6 @@ void ssInputBuffer::set(const char *begining, int size)
     state = Modified;
     stateMutex.unlock();
 
-    printf("Debug: ssInputBuffer::set");
 }
 
 // clean - goleste buffer-ul de input - a fost conceputa pentru cazul in care utilizatorul apasa sageata-sus
@@ -67,7 +66,6 @@ void ssInputBuffer::clean(void)
     state = Modified;
     stateMutex.unlock();
 
-    printf("Debug: ssInputBuffer::clean");
 }
 
 // push - metoda care pune cate un caracter la sfarsitul buffer-ului de input - e presupusa a fi mai eficienta
@@ -84,7 +82,6 @@ void ssInputBuffer::push(char ch)
     state = Modified;
     stateMutex.unlock();
 
-    printf("Debug: ssInputBuffer::push");
 }
 
 // pop - metoda inversa metodei push, a se citi documentatia push
@@ -100,7 +97,6 @@ void ssInputBuffer::pop(void)
     state = Modified;
     stateMutex.unlock();
 
-    printf("Debug: ssInputBuffer::pop");
 }
 
 // read - metoda vizibila public, va fi folosita din layer-ul de bussines pentru a se vedea ce string

@@ -10,19 +10,15 @@ void ssOutputBuffer::set(const char *begining, int size)
     state = Modifying;
     stateMutex.unlock();
 
-    std::string debug = "";
-
     for(int i = 0; i < size; i++)
     {
         data.push_back(begining[i]);
-        debug += begining[i];
     }
 
     stateMutex.lock();
     state = Modified;
     stateMutex.unlock();
 
-  //  std::cout << debug << std::endl;
 
 }
 
@@ -37,8 +33,6 @@ void ssOutputBuffer::clean(void)
     stateMutex.lock();
     state = Modified;
     stateMutex.unlock();
-
-    printf("Debug: ssOutputBuffer::clean");
 }
 
 

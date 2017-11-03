@@ -10,8 +10,11 @@ class SenseForm : public QWidget
 public:
     SenseForm(QWidget *parent=0);
 public slots:
-    void on_commandTextBox_textChanged();
     void on_pushButton_clicked();
+ 
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
 
 private:
     Ui::senseForm ui;

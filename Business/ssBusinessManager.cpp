@@ -37,7 +37,6 @@ void  ssBusinessManager::destroyInstance ()
 
 void ssBusinessManager::hello()
 {
-    printf("Hello from Business manager!\n");
         ssDataManager data;
         data.hello();
 }
@@ -55,7 +54,7 @@ void ssBusinessManager::run()
 
     while(statusTableLocalRef.getProcessStatus() == ssStatusTable::ProcessStatus::On)
     {
-        std::chrono::milliseconds timeToSleep(500);
+        std::chrono::milliseconds timeToSleep(10);
         std::this_thread::sleep_for(timeToSleep);
 
         if(inputBuffer.isReadyToExecute())
@@ -69,7 +68,6 @@ void ssBusinessManager::run()
 
         if(inputBuffer.wasModified())
         {
-            std::cout << "modification arised in input buffer" << std::endl;
             std::string inputTillNow = inputBuffer.read();
             std::string output = advisor.suggestFrom(inputTillNow);
             outputBuffer.set(output.c_str(), output.size());
@@ -78,6 +76,5 @@ void ssBusinessManager::run()
 
         }
 
-        std::cout << "ssBusinessManager - thread " << std::endl; 
     }
 }
