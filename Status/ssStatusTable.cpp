@@ -1,5 +1,6 @@
 #include <ssStatusTable.h>
 #include <stdio.h>
+#include <string.h>
 
 ssStatusTable* ssStatusTable::instance = NULL;
 
@@ -40,6 +41,11 @@ ssInputBuffer& ssStatusTable::getRefToInputBuffer()
 ssOutputBuffer& ssStatusTable::getRefToOutputBuffer()
 {
     return outputBuffer;
+}
+
+ssSugestionBuffer& ssStatusTable::getRefToSuggestionBuffer()
+{
+    return sugestionBuffer;
 }
 
 void ssStatusTable::hello()

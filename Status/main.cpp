@@ -9,23 +9,33 @@ int main ()
 {
     printf("\nHello SenseShell!\n");
 
-    ssGUIManager &gui = ssGUIManager::getInstance();
-    ssBusinessManager &business = ssBusinessManager::getInstance();
-    ssStatusTable &status = ssStatusTable::getInstance();
+    // iau instantele singleton-urilor ce monitorizeaza fiecare layer
+    ssGUIManager        &gui        = ssGUIManager::getInstance();
+    ssBusinessManager   &business   = ssBusinessManager::getInstance();
+    ssStatusTable       &status     = ssStatusTable::getInstance();
 
-    std::thread businessThread(ssBusinessManager::run);     //spawn thread for business
+    // ridica thread-ul pentru layer-ul de bussines
+    std::thread businessThread(ssBusinessManager::run);
+    
+    // for debugging
     std::chrono::milliseconds timeToSleep(500);
     std::this_thread::sleep_for(timeToSleep);
-    std::thread guiThread(ssGUIManager::run);               //spawn thread for gui
     
+    // ridica thread-ul pentru layer-ul de interfata grafica
+    std::thread guiThread(ssGUIManager::run);
 
-  
+    /*
+    *   thread inutil. astept sa se termine cele 2 thread-uri ca sa le inchid
+    */
+    
+    // inchiderea thread-urilor pentru gui si business
     guiThread.join();
-    ssGUIManager::destroyInstance();
     businessThread.join();
-    ssBusinessManager::destroyInstance();
-    ssStatusTable::destroyInstance();
-
+    
+    // dezalocare singleton-uri
+    ssBusinessManager::destroyInstance ();
+    ssStatusTable::destroyInstance ();
+    ssGUIManager::destroyInstance ();
     
 
     return 0;

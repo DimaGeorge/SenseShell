@@ -1,7 +1,15 @@
-#include "ui_senseShell.h"
+#include <QWidget>
+#include "textedit.h"
 
 class ssGUIManager;
 class ssStatusTable;
+class QTextEdit;
+class QString;
+class QWidget;
+class QAbstractItemModel;
+class QListView;
+class QEvent;
+
 
 class SenseForm : public QWidget
 {
@@ -9,12 +17,20 @@ class SenseForm : public QWidget
 
 public:
     SenseForm(QWidget *parent=0);
-public slots:
-    void on_commandTextBox_textChanged();
-    void on_pushButton_clicked();
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
 
 private:
-    Ui::senseForm ui;
+    void tweak(QCompleter *);
+    void tweak(QListView* );
+    void setupUi(QWidget *senseForm);
+    void retranslateUi(QWidget *senseForm);
+    void executeCommandReady();
+    QAbstractItemModel* modelFromFile(const QString& fileName);
+    TextEdit *commandTextBox;
+   // QTextEdit *suggestionTextBox;
+    QCompleter* completer;
     ssGUIManager &manager;
     ssStatusTable &status;
 };

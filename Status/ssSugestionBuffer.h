@@ -15,7 +15,7 @@ public:
 private:
     std::vector<std::string> data;
     
-    void set (const char *, int);
+    void set (const char *, int);  // in acest context set() apeleaza in fapt add(). pentru golire sa se fol clean()
     void clean (void);
     void add (std::string);
 

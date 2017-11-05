@@ -1,8 +1,8 @@
 #include <ssBuffer.h>
 
-/* empty */
 
-bool ssBuffer::wasModified(void)
+// wasModified - pentru a verifica daca buffer-ul a fost scris recent
+bool ssBuffer::wasModified (void)
 {
     if(state == Modified)
     {

@@ -1,6 +1,7 @@
 #include <ssBusinessManager.h>
 #include <ssDataManager.h>
 #include <ssInterpreter.h>
+#include <ssAdvisor.h>
 #include <iostream>
 #include <thread>
 
@@ -36,7 +37,6 @@ void  ssBusinessManager::destroyInstance ()
 
 void ssBusinessManager::hello()
 {
-    printf("Hello from Business manager!\n");
         ssDataManager data;
         data.hello();
 }
@@ -47,12 +47,14 @@ void ssBusinessManager::run()
         
         ssOutputBuffer &outputBuffer = statusTableLocalRef.getRefToOutputBuffer();
         ssInputBuffer &inputBuffer = statusTableLocalRef.getRefToInputBuffer();
-        
+        ssSugestionBuffer &suggestionBuffer = statusTableLocalRef.getRefToSuggestionBuffer();
+
         ssInterpreter interpreter;
+        ssAdvisor advisor;
 
     while(statusTableLocalRef.getProcessStatus() == ssStatusTable::ProcessStatus::On)
     {
-        std::chrono::milliseconds timeToSleep(500);
+        std::chrono::milliseconds timeToSleep(10);
         std::this_thread::sleep_for(timeToSleep);
 
         if(inputBuffer.isReadyToExecute())
@@ -61,13 +63,18 @@ void ssBusinessManager::run()
             std::string output = interpreter.execute(inputCommand);
             outputBuffer.set(output.c_str(), output.size());
             inputBuffer.executionDone();
+            continue;
         }
 
         if(inputBuffer.wasModified())
         {
-            std::cout << "modification arised in input buffer" << std::endl;
+            std::string inputTillNow = inputBuffer.read();
+            std::string output = advisor.suggestFrom(inputTillNow);
+            outputBuffer.set(output.c_str(), output.size());
+            inputBuffer.executionDone();
+            continue;
+
         }
 
-        std::cout << "ssBusinessManager - thread " << std::endl; 
     }
 }

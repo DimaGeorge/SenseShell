@@ -37,7 +37,7 @@ void ssGUIManager::destroyInstance(void)
 void ssGUIManager::sendCommand(char* command)
 {
     ssInputBuffer &inputBuffer=statusTable.getRefToInputBuffer();
-    inputBuffer.set(command,sizeof(command));
+    inputBuffer.set(command,strlen(command)+1);
     inputBuffer.execute();
 }
 
