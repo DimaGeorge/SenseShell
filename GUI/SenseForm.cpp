@@ -1,9 +1,10 @@
 #include "SenseForm.h"
 #include "ssGUIManager.h"
-#include<QTextEdit>
+#include <QTextEdit>
 #include <QAbstractItemModel>
-#include<QWidget>
-#include<QListView>
+#include <QWidget>
+#include <QListView>
+#include <QEvent>
 
 SenseForm::SenseForm(QWidget *parent)
 :QWidget(parent),status(ssStatusTable::getInstance()),manager(ssGUIManager::getInstance()),completer(0)
@@ -13,12 +14,15 @@ SenseForm::SenseForm(QWidget *parent)
 
 void SenseForm::setupUi(QWidget *senseForm)
 {
+    qApp->installEventFilter(this);
+
     if (senseForm->objectName().isEmpty())
         senseForm->setObjectName(QString::fromUtf8("senseForm"));
      senseForm->resize(620, 455);
+
     commandTextBox = new TextEdit(this);
     commandTextBox->setObjectName(QString::fromUtf8("commandTextBox"));
-    commandTextBox->setGeometry(QRect(5, 5, 611, 271));
+    commandTextBox->setGeometry(QRect(5, 5, 610, 445));
     completer = new QCompleter(this);
     completer->setModel(modelFromFile("GUI/resources/wordlist.txt"));
     completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
@@ -27,9 +31,9 @@ void SenseForm::setupUi(QWidget *senseForm)
     tweak(completer);
     commandTextBox->setCompleter(completer);
    
-    suggestionTextBox = new QTextEdit(senseForm);
-    suggestionTextBox->setObjectName(QString::fromUtf8("suggestionTextBox"));
-    suggestionTextBox->setGeometry(QRect(5, 280, 611, 111));
+   // suggestionTextBox = new QTextEdit(senseForm);
+   // suggestionTextBox->setObjectName(QString::fromUtf8("suggestionTextBox"));
+   // suggestionTextBox->setGeometry(QRect(5, 280, 611, 111));
    
     retranslateUi(senseForm);
 
@@ -37,8 +41,16 @@ void SenseForm::setupUi(QWidget *senseForm)
 
 void SenseForm::retranslateUi(QWidget *senseForm)
 {
-    senseForm->setWindowTitle(QApplication::translate("senseForm", "Form", 0, QApplication::UnicodeUTF8));
+    senseForm->setWindowTitle(QApplication::translate("senseForm", "SenseShell v1.0.1", 0, QApplication::UnicodeUTF8));
 } // retranslateUi
+
+
+void SenseForm::executeCommandReady()
+{
+   // std::string command;
+    //command=commandTextBox->toPlainText();
+    manager.sendCommand("ls");
+}
 
 QAbstractItemModel* SenseForm::modelFromFile(const QString& fileName)
 {
@@ -73,4 +85,19 @@ void SenseForm::tweak(QListView* view)
 {
     view->setUniformItemSizes(true);
     view->setLayoutMode(QListView::Batched);
+}
+
+
+bool SenseForm::eventFilter(QObject *obj, QEvent *event)
+{ 
+    if (event->type() == QEvent::KeyPress)
+    {
+        if(obj == commandTextBox)
+        {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+            if(keyEvent->key() == Qt::Key_Return)
+                executeCommandReady();
+        }
+    }
+    return QObject::eventFilter(obj, event);
 }
