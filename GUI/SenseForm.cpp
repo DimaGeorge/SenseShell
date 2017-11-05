@@ -47,9 +47,16 @@ void SenseForm::retranslateUi(QWidget *senseForm)
 
 void SenseForm::executeCommandReady()
 {
-   // std::string command;
-    //command=commandTextBox->toPlainText();
-    manager.sendCommand("ls");
+    QString command;
+    command=commandTextBox->toPlainText();
+
+   
+    QByteArray ba = command.toLatin1();
+    char *c_str2 = ba.data(); 
+    manager.sendCommand(c_str2);
+    ssOutputBuffer &out=status.getRefToOutputBuffer();
+    QString outputCommand=out.read().data();
+    commandTextBox->setText(outputCommand);
 }
 
 QAbstractItemModel* SenseForm::modelFromFile(const QString& fileName)
