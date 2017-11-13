@@ -41,7 +41,7 @@ void SenseForm::setupUi(QWidget *senseForm)
 
 void SenseForm::retranslateUi(QWidget *senseForm)
 {
-    senseForm->setWindowTitle(QApplication::translate("senseForm", "SenseShell v1.0.1", 0, QApplication::UnicodeUTF8));
+    senseForm->setWindowTitle(QApplication::translate("senseForm", "SenseShell v1.0.1", 0));
 } // retranslateUi
 
 

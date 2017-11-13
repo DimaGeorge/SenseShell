@@ -4,7 +4,7 @@
 #include <ssStatusTable.h>
 #include <stdio.h>
 #include <stdlib.h> // prevents error for exit on line 18 when compiling with gcc
-#include <QtGui>
+#include <QtWidgets>
 
 
 class ssGUIManager

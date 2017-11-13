@@ -43,7 +43,8 @@ void ssGUIManager::sendCommand(char* command)
 
 void ssGUIManager::run()
 {
-    QApplication app(0, NULL);
+    int argc = 0;
+    QApplication app(argc, NULL);
     SenseForm senseWindow;
     senseWindow.show();
     app.exec();
