@@ -2,10 +2,12 @@
 #define _SSBUSINESSMANAGER_H
 
 #include <ssStatusTable.h>
+#include <ssAdvisor.h>
 
 class ssBusinessManager
 {
 public:
+    ssAdvisor Advisor;
     static ssBusinessManager&   getInstance ();
     static void                 destroyInstance ();
     static void run();

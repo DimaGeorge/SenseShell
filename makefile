@@ -11,6 +11,5 @@ doit:
 	rm *.o
 	rm *.pro
 	rm moc_*.cpp
-	rm ui_*
 	./SenseShell
 	#rm SenseShell
