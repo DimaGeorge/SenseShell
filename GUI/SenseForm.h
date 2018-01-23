@@ -22,15 +22,15 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event);
 
 private:
-    void tweak(QCompleter *);
-    void tweak(QListView* );
     void setupUi(QWidget *senseForm);
     void retranslateUi(QWidget *senseForm);
     void executeCommandReady();
-    QAbstractItemModel* modelFromFile(const QString& fileName);
-    TextEdit *commandTextBox;
-   // QTextEdit *suggestionTextBox;
-    QCompleter* completer;
-    ssGUIManager &manager;
-    ssStatusTable &status;
+
+    /* fields */
+    ssGUIManager    &manager;
+    ssStatusTable   &status;
+
+    QAbstractItemModel  *modelFromFile(const QString& fileName);
+    TextEdit            *commandTextBox;
+    QCompleter          *completer;
 };

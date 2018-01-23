@@ -26,6 +26,8 @@ public:
 
     void            setProcessOff (void)       {   processStatus = ProcessStatus::Off;         };
     ProcessStatus   getProcessStatus (void)    {   return processStatus;                       };
+
+
 private:
     /*fields*/
     ssInputBuffer       inputBuffer;
