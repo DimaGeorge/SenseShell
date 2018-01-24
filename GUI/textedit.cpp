@@ -83,6 +83,13 @@ void TextEdit::keyPressEvent(QKeyEvent *e)
            break;
        }
     }
+    
+    if(e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter)
+    {
+        qDebug("ci plm?");
+        return;
+    }
+        
 
     bool isShortcut = ((e->modifiers() & Qt::ControlModifier) && e->key() == Qt::Key_E); // CTRL+E
     if (!c || !isShortcut) // do not process the shortcut when we have a completer
