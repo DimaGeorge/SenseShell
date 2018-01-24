@@ -22,6 +22,7 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event);
 
 private:
+    int userAhost(bool print = true);
     void setupUi(QWidget *senseForm);
     void retranslateUi(QWidget *senseForm);
     void executeCommandReady();

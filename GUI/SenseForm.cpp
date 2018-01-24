@@ -4,7 +4,10 @@
 #include <QAbstractItemModel>
 #include <QWidget>
 #include <QListView>
+#include <QHostInfo>
 #include <QEvent>
+#include <unistd.h>
+#include <stdio.h>
 
 SenseForm::SenseForm(QWidget *parent):
                     QWidget(parent),
@@ -32,7 +35,7 @@ void SenseForm::setupUi(QWidget *senseForm)
     ///* Setting the completer */
     //
     completer = new QCompleter(this);
-    completer->setModel(modelFromFile("GUI/resources/wordlist.txt"));
+    completer->setModel(modelFromFile("/root/SenseShell/GUI/resources/wordlist.txt"));
     completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
     completer->setWrapAround(false);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
@@ -45,6 +48,7 @@ void SenseForm::setupUi(QWidget *senseForm)
 
     commandTextBox->setCompleter(completer);
     retranslateUi(senseForm);
+    userAhost();
 }
 
 void SenseForm::retranslateUi(QWidget *senseForm)
@@ -59,23 +63,58 @@ void SenseForm::retranslateUi(QWidget *senseForm)
 
 void SenseForm::executeCommandReady()
 {
-    static QTextCursor oldCursor = commandTextBox->textCursor();
+    static int antet = userAhost(false);
 
     commandTextBox->moveCursor(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
     commandTextBox->moveCursor(QTextCursor::End, QTextCursor::KeepAnchor);
 
     QString command;
     command = commandTextBox->textCursor().selectedText();
-
+    qDebug() << command;
+    command = command.mid(antet + 1, command.length());
+    qDebug() << command;
     QByteArray ba = command.toLatin1();
     char *c_str2 = ba.data(); 
     manager.sendCommand(c_str2);
     ssOutputBuffer &out=status.getRefToOutputBuffer();
     QString outputCommand=out.read().data();
     commandTextBox->append(outputCommand);
-    
+    antet = userAhost();
     commandTextBox->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
+}
 
+int SenseForm::userAhost(bool print)
+{
+    QString redHtml = "<font color=\"Red\">";
+    QString blueHtml = "<font color=\"Blue\">";
+    QString endHtml = "</font> <font color=\"White\">";
+
+    char cwd[1024];
+    getcwd(cwd, sizeof(cwd));
+    QString workingDir = cwd;
+
+    QString name = qgetenv("USER");
+    if (name.isEmpty())
+        name = qgetenv("USERNAME");
+    name += "@";
+    name += QHostInfo::localHostName();
+
+    QString line = redHtml % name;
+    line = line % endHtml;
+    line = line % blueHtml;
+    line = line % workingDir;
+    line = line % endHtml;
+
+    name += workingDir;
+    if(print)
+    {
+        commandTextBox->moveCursor(QTextCursor::End);
+        commandTextBox->insertHtml(line);
+        commandTextBox->moveCursor(QTextCursor::End);
+    }
+ 
+
+    return name.length();
 }
 
 QAbstractItemModel* SenseForm::modelFromFile(const QString& fileName)
@@ -114,12 +153,11 @@ bool SenseForm::eventFilter(QObject *obj, QEvent *event)
         
         if(obj == commandTextBox)
         {
-            qDebug("enter received!");
             QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
             if(keyEvent->key() == Qt::Key_Return)
             {
+                qDebug("enter received in SenseForm");
                 executeCommandReady();
-                
             }
                 
         }
