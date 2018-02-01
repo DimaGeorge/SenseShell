@@ -1,15 +1,35 @@
 #include <ssInterpreter.h>
+#include "ssBusinessManager.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <QString>
+
+#include <dirent.h>
 #include <unistd.h>
+
+void ssInterpreter::cdProcedure(std::string command)
+{
+    chdir(command.substr(3, command.length()).c_str());
+    
+    DIR *d = opendir(".");
+    struct dirent *ds;
+    while(ds = readdir(d))
+    {
+        QString entryName = ds->d_name;
+        ssBusinessManager::getInstance().suggestions << entryName;
+    }
+    void rewinddir(DIR *dir);
+    int closedir(DIR *dir);
+}
 
 
 std::string ssInterpreter::execute(std::string command)
 {
+    
+    
     if (command.find("cd") != std::string::npos)
     {
-        printf("+++++++++++++++++++++++%s\n", command.substr(4, command.length()).c_str());
-        chdir(command.substr(4, command.length()).c_str());
+        cdProcedure(command);
         std::string output = "";
         return output;
     }
@@ -28,6 +48,13 @@ std::string ssInterpreter::execute(std::string command)
         {
             output += buffer;
         }
+    }
+
+    if(!ssBusinessManager::getInstance().suggestions.contains(command.c_str()))
+    {
+        QString qcommand = command.c_str();
+        QStringList lst = qcommand.split(' ');
+        ssBusinessManager::getInstance().suggestions << lst;
     }
 
     return output;

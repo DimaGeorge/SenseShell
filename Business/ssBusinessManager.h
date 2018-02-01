@@ -3,10 +3,12 @@
 
 #include <ssStatusTable.h>
 #include <ssAdvisor.h>
+#include <QStringList>
 
 class ssBusinessManager
 {
 public:
+    QStringList suggestions;
     ssAdvisor Advisor;
     static ssBusinessManager&   getInstance ();
     static void                 destroyInstance ();

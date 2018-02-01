@@ -27,6 +27,13 @@
         "tuple": "cpp",
         "type_traits": "cpp",
         "typeinfo": "cpp",
-        "qabstractitemmodel": "cpp"
+        "qabstractitemmodel": "cpp",
+        "cwctype": "cpp",
+        "iostream": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "streambuf": "cpp",
+        "qstringlist": "cpp",
+        "qstring": "cpp"
     }
 }
