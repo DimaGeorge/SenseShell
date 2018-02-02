@@ -19,7 +19,6 @@ ssGUIManager& ssGUIManager::getInstance (void)
 {
     if(instance == NULL)
     {
-        printf("---------------------------------------here");
         instance = new ssGUIManager;
     }
     return *instance;

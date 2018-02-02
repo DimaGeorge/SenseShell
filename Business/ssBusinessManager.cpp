@@ -4,12 +4,19 @@
 #include <ssAdvisor.h>
 #include <iostream>
 #include <thread>
+#include <QFile>
 
 ssBusinessManager* ssBusinessManager::instance = NULL;
 
 ssBusinessManager::ssBusinessManager() : statusTable(ssStatusTable::getInstance())
 {
-    /*nimic */
+    QFile TextFile("/root/SenseShell/Business/wordlist.txt");
+    TextFile.open(QIODevice::ReadOnly);
+    while(!TextFile.atEnd())
+    {
+        suggestions.append(TextFile.readLine().trimmed());
+    }
+    TextFile.close();
 }
 
 ssBusinessManager::~ssBusinessManager()

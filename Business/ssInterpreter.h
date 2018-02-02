@@ -7,6 +7,9 @@ class ssInterpreter
 {
 public:
     std::string execute(std::string);
+
+private:
+    void cdProcedure(std::string);
 };
 
 #endif

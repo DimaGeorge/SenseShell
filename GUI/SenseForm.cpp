@@ -8,6 +8,7 @@
 #include <QEvent>
 #include <unistd.h>
 #include <stdio.h>
+#include <ssBusinessManager.h>
 
 SenseForm::SenseForm(QWidget *parent):
                     QWidget(parent),
@@ -34,8 +35,8 @@ void SenseForm::setupUi(QWidget *senseForm)
 
     ///* Setting the completer */
     //
-    completer = new QCompleter(this);
-    completer->setModel(modelFromFile("/root/SenseShell/GUI/resources/wordlist.txt"));
+    completer = new QCompleter(ssBusinessManager::getInstance().suggestions, this);
+
     completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
     completer->setWrapAround(false);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
@@ -70,9 +71,8 @@ void SenseForm::executeCommandReady()
 
     QString command;
     command = commandTextBox->textCursor().selectedText();
-    qDebug() << command;
     command = command.mid(antet + 1, command.length());
-    qDebug() << command;
+    command = command.trimmed();
     QByteArray ba = command.toLatin1();
     char *c_str2 = ba.data(); 
     manager.sendCommand(c_str2);
@@ -81,6 +81,13 @@ void SenseForm::executeCommandReady()
     commandTextBox->append(outputCommand);
     antet = userAhost();
     commandTextBox->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
+
+    QStringListModel *model = new QStringListModel();
+    QStringList foodList = ssBusinessManager::getInstance().suggestions ;
+    model->setStringList(foodList);
+    completer->setModel(model);
+    qDebug() << ssBusinessManager::getInstance().suggestions;
+
 }
 
 int SenseForm::userAhost(bool print)
