@@ -4,7 +4,7 @@
 
 ssStatusTable* ssStatusTable::instance = NULL;
 
-ssStatusTable::ssStatusTable() : processStatus(ProcessStatus::On), inputBuffer("ls", 2)
+ssStatusTable::ssStatusTable() : processStatus(ProcessStatus::On)
 {
     /*nimic aici*/
 }
@@ -31,24 +31,4 @@ void ssStatusTable::destroyInstance()
         delete instance;
         instance = NULL;
     }
-}
-
-ssInputBuffer& ssStatusTable::getRefToInputBuffer()
-{
-    return inputBuffer;
-}
-
-ssOutputBuffer& ssStatusTable::getRefToOutputBuffer()
-{
-    return outputBuffer;
-}
-
-ssSugestionBuffer& ssStatusTable::getRefToSuggestionBuffer()
-{
-    return sugestionBuffer;
-}
-
-void ssStatusTable::hello()
-{
-    printf("Hello from StatusTable");
 }

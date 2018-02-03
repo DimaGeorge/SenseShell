@@ -1,13 +1,17 @@
 #ifndef _SSADVISOR_H
 #define _SSADVISOR_H
 
-#include <string>
+#include <QCompleter>
 
 class ssAdvisor
 {
+private:
+    static QStringList suggestions;
+    static QCompleter *completer;
 public:
-    std::string suggestFrom(std::string);
-
+    static QCompleter *getCompleter(void);
+    static void addSugestion(QString);
+    static void reviseCompleter(void);
 };
 
 #endif

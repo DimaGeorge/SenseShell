@@ -8,14 +8,20 @@
 class ssBusinessManager
 {
 public:
-    QStringList suggestions;
     ssAdvisor Advisor;
+    
     static ssBusinessManager&   getInstance ();
     static void                 destroyInstance ();
     static void run();
 
-    void hello();
+    void setInputBuffer(QString command);
+    QString getOutputBuffer(void);
+
 private:
+    static QString ibuff;
+    static QString obuff;
+    static bool semaforComanda;
+
     ssBusinessManager();
     ~ssBusinessManager();
 

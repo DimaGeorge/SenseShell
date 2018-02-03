@@ -7,16 +7,13 @@
 #include <QFile>
 
 ssBusinessManager* ssBusinessManager::instance = NULL;
+QString ssBusinessManager::ibuff;
+QString ssBusinessManager::obuff;
+bool ssBusinessManager::semaforComanda;
 
 ssBusinessManager::ssBusinessManager() : statusTable(ssStatusTable::getInstance())
 {
-    QFile TextFile("/root/SenseShell/Business/wordlist.txt");
-    TextFile.open(QIODevice::ReadOnly);
-    while(!TextFile.atEnd())
-    {
-        suggestions.append(TextFile.readLine().trimmed());
-    }
-    TextFile.close();
+    
 }
 
 ssBusinessManager::~ssBusinessManager()
@@ -42,45 +39,33 @@ void  ssBusinessManager::destroyInstance ()
     }
 }
 
-void ssBusinessManager::hello()
+void  ssBusinessManager::setInputBuffer(QString command)
 {
-        ssDataManager data;
-        data.hello();
+    ibuff = command;
+    semaforComanda = true;
+}
+QString  ssBusinessManager::getOutputBuffer(void)
+{
+    while(semaforComanda)
+    {
+        std::chrono::milliseconds timeToSleep(10);
+        std::this_thread::sleep_for(timeToSleep);
+    }
+    return obuff;
 }
 
 void ssBusinessManager::run()
 {
-        ssStatusTable &statusTableLocalRef = ssStatusTable::getInstance();
-        
-        ssOutputBuffer &outputBuffer = statusTableLocalRef.getRefToOutputBuffer();
-        ssInputBuffer &inputBuffer = statusTableLocalRef.getRefToInputBuffer();
-        ssSugestionBuffer &suggestionBuffer = statusTableLocalRef.getRefToSuggestionBuffer();
-
-        ssInterpreter interpreter;
-        ssAdvisor advisor;
-
-    while(statusTableLocalRef.getProcessStatus() == ssStatusTable::ProcessStatus::On)
+    ssInterpreter interpreter;
+    while(ssStatusTable::getInstance().getProcessStatus() == ssStatusTable::ProcessStatus::On)
     {
         std::chrono::milliseconds timeToSleep(10);
         std::this_thread::sleep_for(timeToSleep);
-
-        if(inputBuffer.isReadyToExecute())
+        if(semaforComanda)
         {
-            std::string inputCommand = inputBuffer.read();
-            std::string output = interpreter.execute(inputCommand);
-            outputBuffer.set(output.c_str(), output.size());
-            inputBuffer.executionDone();
+            obuff = interpreter.execute(ibuff);
+            semaforComanda = false;
             continue;
-        }
-
-        if(inputBuffer.wasModified())
-        {
-            std::string inputTillNow = inputBuffer.read();
-            std::string output = advisor.suggestFrom(inputTillNow);
-            outputBuffer.set(output.c_str(), output.size());
-            inputBuffer.executionDone();
-            continue;
-
         }
 
     }

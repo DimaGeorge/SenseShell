@@ -2,14 +2,15 @@
 #define _SSINTERPRETER_H
 
 #include <string>
+#include <QString>
 
 class ssInterpreter
 {
 public:
-    std::string execute(std::string);
+    QString execute (QString);
 
 private:
-    void cdProcedure(std::string);
+    void cdProcedure(QString);
 };
 
 #endif
