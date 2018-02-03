@@ -7,41 +7,40 @@
 #include <dirent.h>
 #include <unistd.h>
 
-void ssInterpreter::cdProcedure(std::string command)
+void ssInterpreter::cdProcedure(QString command)
 {
-    chdir(command.substr(3, command.length()).c_str());
+    command.remove(0,2);
+    command = command.trimmed();
+    chdir(command.toLatin1().data());
     
     DIR *d = opendir(".");
     struct dirent *ds;
     while(ds = readdir(d))
     {
         QString entryName = ds->d_name;
-        ssBusinessManager::getInstance().suggestions << entryName;
+        ssAdvisor::addSugestion(entryName);
     }
     void rewinddir(DIR *dir);
     int closedir(DIR *dir);
 }
 
-
-std::string ssInterpreter::execute(std::string command)
+QString ssInterpreter::execute(QString command)
 {
-    
-    
-    if (command.find("cd") != std::string::npos)
+    if (command.indexOf("cd") != -1)
     {
         cdProcedure(command);
-        std::string output = "";
+        QString output = "";
         return output;
     }
 
-    FILE *pipe = popen(command.c_str(), "r");
+    FILE *pipe = popen(command.toLatin1().data(), "r");
     if(!pipe)
     {
         printf("error!");
     }   
 
     char buffer[1024];
-    std::string output = "";
+    QString output = "";
     while(!feof(pipe))
     {
         if(fgets(buffer, 1023, pipe) != NULL)
@@ -49,13 +48,7 @@ std::string ssInterpreter::execute(std::string command)
             output += buffer;
         }
     }
-
-    if(!ssBusinessManager::getInstance().suggestions.contains(command.c_str()))
-    {
-        QString qcommand = command.c_str();
-        QStringList lst = qcommand.split(' ');
-        ssBusinessManager::getInstance().suggestions << lst;
-    }
-
+    ssAdvisor::addSugestion(command);
+    
     return output;
 }

@@ -1,5 +1,6 @@
 #include "SenseForm.h"
 #include "ssGUIManager.h"
+#include <ssAdvisor.h>
 #include <QTextEdit>
 #include <QAbstractItemModel>
 #include <QWidget>
@@ -14,7 +15,7 @@ SenseForm::SenseForm(QWidget *parent):
                     QWidget(parent),
                     status(ssStatusTable::getInstance()),
                     manager(ssGUIManager::getInstance()),
-                    completer(0)
+                    completer(ssAdvisor::getCompleter())
 {
     setupUi(this); /*builds the widget tree on the parent widget
                     *http://doc.qt.io/archives/qt-4.8/designer-using-a-ui-file.html
@@ -25,22 +26,15 @@ void SenseForm::setupUi(QWidget *senseForm)
 {
     qApp->installEventFilter(this);
     commandTextBox = new TextEdit(this);
-    commandTextBox->setGeometry(QRect(5, 5, 610, 445));
-    
+    this->setFixedSize(710,440);
+    commandTextBox->setGeometry(QRect(-1, -1, 720, 445)); // 720 / 445 = 1.618 (numarul de aur)
+
     // setting the color for commandTextBox
     QPalette p = commandTextBox->palette();
     p.setColor(QPalette::Base, Qt::black);
     p.setColor(QPalette::Text, Qt::white);
     commandTextBox->setPalette(p);
 
-    ///* Setting the completer */
-    //
-    completer = new QCompleter(ssBusinessManager::getInstance().suggestions, this);
-
-    completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
-    completer->setWrapAround(false);
-    completer->setCaseSensitivity(Qt::CaseInsensitive);
-    completer->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     QListView * view = (QListView *)completer->popup();
     view->setUniformItemSizes(true);
     view->setLayoutMode(QListView::Batched);
@@ -76,18 +70,11 @@ void SenseForm::executeCommandReady()
     QByteArray ba = command.toLatin1();
     char *c_str2 = ba.data(); 
     manager.sendCommand(c_str2);
-    ssOutputBuffer &out=status.getRefToOutputBuffer();
-    QString outputCommand=out.read().data();
+    QString outputCommand = ssBusinessManager::getInstance().getOutputBuffer();
     commandTextBox->append(outputCommand);
     antet = userAhost();
     commandTextBox->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
-
-    QStringListModel *model = new QStringListModel();
-    QStringList foodList = ssBusinessManager::getInstance().suggestions ;
-    model->setStringList(foodList);
-    completer->setModel(model);
-    qDebug() << ssBusinessManager::getInstance().suggestions;
-
+    ssAdvisor::reviseCompleter();
 }
 
 int SenseForm::userAhost(bool print)
@@ -124,35 +111,6 @@ int SenseForm::userAhost(bool print)
     return name.length();
 }
 
-QAbstractItemModel* SenseForm::modelFromFile(const QString& fileName)
-{
-    QFile file(fileName);
-    if (!file.open(QFile::ReadOnly))
-        return new QStringListModel(completer);
-
-#ifndef QT_NO_CURSOR
-    /* Application override cursors are intended for showing the user that 
-    *  the application is in a special state, for example during an 
-    *  operation that might take some time.
-    */
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-#endif
-    QStringList words;
-
-    while (!file.atEnd()) {
-        QByteArray line = file.readLine();
-        if (!line.isEmpty())
-            words << line.trimmed();
-    }
-
-#ifndef QT_NO_CURSOR
-    QApplication::restoreOverrideCursor();
-#endif
-
-    return new QStringListModel(words, completer);
-}
-
-
 bool SenseForm::eventFilter(QObject *obj, QEvent *event)
 { 
     if (event->type() == QEvent::KeyPress)
@@ -163,7 +121,6 @@ bool SenseForm::eventFilter(QObject *obj, QEvent *event)
             QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
             if(keyEvent->key() == Qt::Key_Return)
             {
-                qDebug("enter received in SenseForm");
                 executeCommandReady();
             }
                 

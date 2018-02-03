@@ -31,7 +31,7 @@ private:
     ssGUIManager    &manager;
     ssStatusTable   &status;
 
-    QAbstractItemModel  *modelFromFile(const QString& fileName);
+    //QAbstractItemModel  *modelFromFile(const QString& fileName);
     TextEdit            *commandTextBox;
     QCompleter          *completer;
 };

@@ -15,12 +15,8 @@ HEADERS += Business/ssAdvisor.h \
            GUI/SenseForm.h \
            GUI/ssGUIManager.h \
            GUI/textedit.h \
-           Status/ssBuffer.h \
-           Status/ssInputBuffer.h \
-           Status/ssOutputBuffer.h \
            Status/ssStatusTable.h \
-           Status/ssSugestionBuffer.h \
-           utils/utils.h
+           Business/utils.h
 SOURCES += Business/ssAdvisor.cpp \
            Business/ssBusinessManager.cpp \
            Business/ssInterpreter.cpp \
@@ -29,8 +25,4 @@ SOURCES += Business/ssAdvisor.cpp \
            GUI/ssGUIManager.cpp \
            GUI/textedit.cpp \
            Status/main.cpp \
-           Status/ssBuffer.cpp \
-           Status/ssInputBuffer.cpp \
-           Status/ssOutputBuffer.cpp \
            Status/ssStatusTable.cpp \
-           Status/ssSugestionBuffer.cpp

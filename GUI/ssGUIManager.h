@@ -2,6 +2,7 @@
 #define _SSGUIMANAGER_H
 
 #include <ssStatusTable.h>
+#include <ssBusinessManager.h>
 #include <stdio.h>
 #include <stdlib.h> // prevents error for exit on line 18 when compiling with gcc
 #include <QtGui>

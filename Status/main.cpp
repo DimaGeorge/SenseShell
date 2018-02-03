@@ -17,10 +17,6 @@ int main ()
     // ridica thread-ul pentru layer-ul de bussines
     std::thread businessThread(ssBusinessManager::run);
     
-    // for debugging
-    //std::chrono::milliseconds timeToSleep(500);
-    //std::this_thread::sleep_for(timeToSleep);
-    
     // ridica thread-ul pentru layer-ul de interfata grafica
     std::thread guiThread(ssGUIManager::run);
 

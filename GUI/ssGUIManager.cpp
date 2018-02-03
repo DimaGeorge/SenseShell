@@ -1,6 +1,5 @@
 #include <ssGUIManager.h>
 #include <stdio.h>
-#include <ssInputBuffer.h>
 #include "SenseForm.h"
 
 ssGUIManager* ssGUIManager::instance = NULL;
@@ -35,9 +34,7 @@ void ssGUIManager::destroyInstance(void)
 
 void ssGUIManager::sendCommand(char* command)
 {
-    ssInputBuffer &inputBuffer=statusTable.getRefToInputBuffer();
-    inputBuffer.set(command,strlen(command)+1);
-    inputBuffer.execute();
+    ssBusinessManager::getInstance().setInputBuffer(QString(command));
 }
 
 void ssGUIManager::run()
