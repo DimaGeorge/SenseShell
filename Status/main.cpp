@@ -3,6 +3,7 @@
 
 #include <ssGUIManager.h>
 #include <ssBusinessManager.h>
+#include <ssInterpreter.h>
 #include <ssStatusTable.h>
 #include <signal.h>
 
@@ -33,6 +34,6 @@ int main ()
     ssStatusTable::destroyInstance ();
     ssGUIManager::destroyInstance ();
     
-
+    ssInterpreter::stopAnyExecutingCommand();
     return 0;
 }
