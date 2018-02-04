@@ -37,26 +37,7 @@ void ssInterpreter::execute(QString command)
         ssBusinessManager::produceOutput(obuff);
         return;
     }
-    /*
-    FILE *pipe = popen(command.toLatin1().data(), "r");
-    if(!pipe)
-    {
-        printf("error!");
-    }   
-
-    char buffer[1024];
-    while(!feof(pipe))
-    {
-        if(fgets(buffer, 1023, pipe) != NULL)
-        {
-            obuff = buffer;
-            qDebug("producer >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-            qDebug(obuff.toLatin1().data());
-            ssBusinessManager::produceOutput(obuff);
-            obuff.clear();
-        }
-    }
-    */
+    
     int pipeFileDesc[2];
     if(pipe(pipeFileDesc))
     {
