@@ -80,6 +80,7 @@ void SenseForm::executeCommandReady()
         {
             outputCommand = outputCommand.trimmed();
             commandTextBox->append(outputCommand);
+            commandTextBox->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
             QApplication::processEvents();
         }
     }
