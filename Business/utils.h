@@ -10,5 +10,10 @@ void printThread(void)
     std::cout << "thread " << this_id << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
 }
 
+void sleepThread(void)
+{
+    std::chrono::milliseconds timeToSleep(100);
+    std::this_thread::sleep_for(timeToSleep);
+}
 
 #endif

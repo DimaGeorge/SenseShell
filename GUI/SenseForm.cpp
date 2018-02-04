@@ -7,6 +7,7 @@
 #include <QListView>
 #include <QHostInfo>
 #include <QEvent>
+#include <thread>
 #include <unistd.h>
 #include <stdio.h>
 #include <ssBusinessManager.h>
@@ -70,8 +71,20 @@ void SenseForm::executeCommandReady()
     QByteArray ba = command.toLatin1();
     char *c_str2 = ba.data(); 
     manager.sendCommand(c_str2);
-    QString outputCommand = ssBusinessManager::getInstance().getOutputBuffer();
-    commandTextBox->append(outputCommand);
+    while(ssBusinessManager::commandIsBeingExecuted() || !ssBusinessManager::isOutputBufferEmpty())
+    {
+        //std::chrono::milliseconds timeToSleep(100);
+        //std::this_thread::sleep_for(timeToSleep);
+        QString outputCommand = ssBusinessManager::getInstance().getOutputBuffer();
+        if(!outputCommand.isEmpty())
+        {
+            outputCommand = outputCommand.trimmed();
+            commandTextBox->append(outputCommand);
+            commandTextBox->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
+            QApplication::processEvents();
+        }
+    }
+    commandTextBox->append("");
     antet = userAhost();
     commandTextBox->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
     ssAdvisor::reviseCompleter();

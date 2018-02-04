@@ -8,6 +8,7 @@
 #include <QModelIndex>
 #include <QAbstractItemModel>
 #include <QScrollBar>
+#include <ssInterpreter.h>
 
 TextEdit::TextEdit(QWidget *parent)
 : QTextEdit(parent), c(0)
@@ -83,7 +84,13 @@ void TextEdit::keyPressEvent(QKeyEvent *e)
            break;
        }
     }
-    
+
+    if(e->key() == Qt::Key_C && e->modifiers().testFlag(Qt::ControlModifier))
+    {
+        ssInterpreter::stopAnyExecutingCommand();
+        return;
+    }
+
     if(e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter)
     {
         return;

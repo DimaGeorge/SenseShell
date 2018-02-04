@@ -7,9 +7,11 @@
 class ssInterpreter
 {
 public:
-    QString execute (QString);
-
+    void execute (QString);
+    static void stopAnyExecutingCommand(void);
 private:
+    static void pipeReader(int fd);
+    static int ChildPid;
     void cdProcedure(QString);
 };
 
