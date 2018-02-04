@@ -13,6 +13,7 @@ private:
     static void pipeReader(int fd);
     static int ChildPid;
     void cdProcedure(QString);
+    void exitProcedure(QString);
 };
 
 #endif

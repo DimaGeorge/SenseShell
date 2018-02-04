@@ -33,6 +33,11 @@ void ssInterpreter::cdProcedure(QString command)
     int closedir(DIR *dir);
 }
 
+void ssInterpreter::exitProcedure(QString command)
+{
+    exit(0);
+}
+
 void ssInterpreter::pipeReader(int fd)
 {
     QString obuff;
@@ -57,6 +62,13 @@ void ssInterpreter::execute(QString command)
         return;
     }
 
+     if (command.indexOf("exit") != -1)
+    {
+        exitProcedure(command);
+        ssBusinessManager::produceOutput(obuff);
+        return;
+    }
+    
     int pipeFileDesc[2];
     if(pipe(pipeFileDesc))
     {
@@ -68,7 +80,7 @@ void ssInterpreter::execute(QString command)
         qDebug("pipe works");
     }
 
-    int errorFD = open("temp", O_WRONLY | O_CREAT | O_TRUNC);
+    int errorFD = open("temp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
     ChildPid = fork();
     if(ChildPid == 0)
     {
