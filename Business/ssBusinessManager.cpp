@@ -9,7 +9,8 @@
 ssBusinessManager* ssBusinessManager::instance = NULL;
 QString ssBusinessManager::ibuff;
 QString ssBusinessManager::obuff;
-bool ssBusinessManager::semaforComanda;
+bool ssBusinessManager::executingComand;
+QMutex ssBusinessManager::mutexOutputBuffer;
 
 ssBusinessManager::ssBusinessManager() : statusTable(ssStatusTable::getInstance())
 {
@@ -42,16 +43,29 @@ void  ssBusinessManager::destroyInstance ()
 void  ssBusinessManager::setInputBuffer(QString command)
 {
     ibuff = command;
-    semaforComanda = true;
+    executingComand = true;
 }
 QString  ssBusinessManager::getOutputBuffer(void)
 {
-    while(semaforComanda)
+    mutexOutputBuffer.lock();
+    QString obuff1 = obuff;
+    obuff.clear();
+    mutexOutputBuffer.unlock();
+    return obuff1;
+}
+
+void ssBusinessManager::produceOutput(QString prod)
+{
+    mutexOutputBuffer.lock();
+    if(obuff.isEmpty())
     {
-        std::chrono::milliseconds timeToSleep(10);
-        std::this_thread::sleep_for(timeToSleep);
+        obuff = prod;
     }
-    return obuff;
+    else
+    {
+        obuff += prod;
+    }
+    mutexOutputBuffer.unlock();
 }
 
 void ssBusinessManager::run()
@@ -61,11 +75,11 @@ void ssBusinessManager::run()
     {
         std::chrono::milliseconds timeToSleep(10);
         std::this_thread::sleep_for(timeToSleep);
-        if(semaforComanda)
+        if(executingComand)
         {
-            obuff = interpreter.execute(ibuff);
-            semaforComanda = false;
-            continue;
+            obuff.clear();
+            interpreter.execute(ibuff);
+            executingComand = false;
         }
 
     }

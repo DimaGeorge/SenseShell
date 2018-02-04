@@ -7,8 +7,8 @@
 class ssInterpreter
 {
 public:
-    QString execute (QString);
-
+    void execute (QString);
+    static void stopAnyExecutingCommand(void);
 private:
     void cdProcedure(QString);
 };

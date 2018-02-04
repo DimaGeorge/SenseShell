@@ -24,13 +24,13 @@ void ssInterpreter::cdProcedure(QString command)
     int closedir(DIR *dir);
 }
 
-QString ssInterpreter::execute(QString command)
+void ssInterpreter::execute(QString command)
 {
+    QString obuff;
     if (command.indexOf("cd") != -1)
     {
         cdProcedure(command);
-        QString output = "";
-        return output;
+        ssBusinessManager::produceOutput(obuff);
     }
 
     FILE *pipe = popen(command.toLatin1().data(), "r");
@@ -40,15 +40,22 @@ QString ssInterpreter::execute(QString command)
     }   
 
     char buffer[1024];
-    QString output = "";
     while(!feof(pipe))
     {
         if(fgets(buffer, 1023, pipe) != NULL)
         {
-            output += buffer;
+            obuff = buffer;
+            qDebug("producer >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            qDebug(obuff.toLatin1().data());
+            ssBusinessManager::produceOutput(obuff);
+            obuff.clear();
         }
     }
     ssAdvisor::addSugestion(command);
     
-    return output;
+}
+
+void ssInterpreter::stopAnyExecutingCommand(void)
+{
+    qDebug("muita!");
 }

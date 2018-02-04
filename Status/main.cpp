@@ -4,11 +4,11 @@
 #include <ssGUIManager.h>
 #include <ssBusinessManager.h>
 #include <ssStatusTable.h>
+#include <signal.h>
+
 
 int main ()
 {
-    printf("\nHello SenseShell!\n");
-
     // iau instantele singleton-urilor ce monitorizeaza fiecare layer
     ssGUIManager        &gui        = ssGUIManager::getInstance();
     ssBusinessManager   &business   = ssBusinessManager::getInstance();
