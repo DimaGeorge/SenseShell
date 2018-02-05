@@ -69,12 +69,6 @@ void SenseForm::executeCommandReady()
     command = commandTextBox->textCursor().selectedText();
     command = command.mid(antet + 1, command.length());
     command = command.trimmed();
-
-
-    manager.sendCommand(command.toLatin1().data());
-    QString outputCommand = ssBusinessManager::getInstance().getOutputBuffer();
-    commandTextBox->append(outputCommand);
-
     QByteArray ba = command.toLatin1();
     char *c_str2 = ba.data(); 
     manager.sendCommand(c_str2);
