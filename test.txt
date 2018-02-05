@@ -3,3 +3,15 @@ ls
 ls -la
 cd ..
 cd SenseShell
+mkdir ana
+cd ana
+cd ..
+rm -d ana
+gedit ana
+cat ana
+rm ana
+ping 127.0.0.1
+ping www.google.com
+ping
+man ls
+exit
