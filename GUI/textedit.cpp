@@ -69,6 +69,14 @@ void TextEdit::focusInEvent(QFocusEvent *e)
 
 void TextEdit::keyPressEvent(QKeyEvent *e)
 {
+    if(e->key()==Qt::Key_Backspace)
+    {
+        return;
+    }
+    if(e->key()==Qt::Key_Up)
+    {
+        return;
+    }
     if (c && c->popup()->isVisible()) {
         // The following keys are forwarded by the completer to the widget
        switch (e->key()) {

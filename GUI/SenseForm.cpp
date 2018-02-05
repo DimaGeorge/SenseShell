@@ -43,6 +43,7 @@ void SenseForm::setupUi(QWidget *senseForm)
 
     commandTextBox->setCompleter(completer);
     retranslateUi(senseForm);
+    currentCursor=commandTextBox->textCursor();
     userAhost();
 }
 
@@ -67,9 +68,8 @@ void SenseForm::executeCommandReady()
     command = commandTextBox->textCursor().selectedText();
     command = command.mid(antet + 1, command.length());
     command = command.trimmed();
-    QByteArray ba = command.toLatin1();
-    char *c_str2 = ba.data(); 
-    manager.sendCommand(c_str2);
+
+    manager.sendCommand(command.toLatin1().data());
     QString outputCommand = ssBusinessManager::getInstance().getOutputBuffer();
     commandTextBox->append(outputCommand);
     antet = userAhost();
@@ -80,49 +80,99 @@ void SenseForm::executeCommandReady()
 int SenseForm::userAhost(bool print)
 {
     QString redHtml = "<font color=\"Red\">";
-    QString blueHtml = "<font color=\"Blue\">";
+    QString greenHtml = "<font color=\"Green\">";
     QString endHtml = "</font> <font color=\"White\">";
 
     char cwd[1024];
     getcwd(cwd, sizeof(cwd));
     QString workingDir = cwd;
-
+    workingDir+="#";
     QString name = qgetenv("USER");
     if (name.isEmpty())
         name = qgetenv("USERNAME");
     name += "@";
     name += QHostInfo::localHostName();
+    name += ":";
 
     QString line = redHtml % name;
     line = line % endHtml;
-    line = line % blueHtml;
+    line = line % greenHtml;
     line = line % workingDir;
     line = line % endHtml;
-
     name += workingDir;
+
     if(print)
     {
         commandTextBox->moveCursor(QTextCursor::End);
         commandTextBox->insertHtml(line);
         commandTextBox->moveCursor(QTextCursor::End);
     }
- 
+    
 
+    
+    currentCursor=commandTextBox->textCursor();
+    commandTextBox->setTextCursor(currentCursor);
+    antetLength=currentCursor.position();
     return name.length();
-}
 
+}
 bool SenseForm::eventFilter(QObject *obj, QEvent *event)
 { 
+    QChar currentChar;
+
+
     if (event->type() == QEvent::KeyPress)
     {
         
         if(obj == commandTextBox)
         {
             QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-            if(keyEvent->key() == Qt::Key_Return)
+            switch(keyEvent->key())
             {
-                executeCommandReady();
+                case Qt::Key_Return:
+                    executeCommandReady();
+                break;
+                case Qt::Key_Left:
+                qDebug("ANTET: %d",antetLength);
+                if((currentCursor.position()) <= antetLength)
+                {
+                    qDebug("LIMIT");
+                    commandTextBox->setTextCursor(currentCursor);
+                }
+                else 
+                {
+                    currentCursor.movePosition(QTextCursor::Left);
+                    qDebug("POZITIA: %d",currentCursor.position());
+                }
+                break;
+                case Qt::Key_Right:
+                    if((currentCursor.position()) <= antetLength)
+                    {
+                        commandTextBox->setTextCursor(currentCursor);
+                    }
+
+                break;
+                case Qt::Key_Backspace:
+                   if((currentCursor.position()) <= antetLength)
+                    {
+                        qDebug("LIMIT");
+                        commandTextBox->setTextCursor(currentCursor);
+                        return 0;
+                    }
+                    else 
+                    {
+                        currentCursor.movePosition(QTextCursor::Left);
+                        currentCursor.deleteChar();
+                        commandTextBox->setTextCursor(currentCursor);
+                        qDebug("POZITIA: %d",currentCursor.position());
+                    }
+                break;
+                default:
+                  //   currentCursor.movePosition(QTextCursor::Right);
+                  //  qDebug("POZITIA: %d",currentCursor.position());
+                break;
             }
+  
                 
         }
     }

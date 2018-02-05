@@ -34,4 +34,7 @@ private:
     //QAbstractItemModel  *modelFromFile(const QString& fileName);
     TextEdit            *commandTextBox;
     QCompleter          *completer;
+    QTextCursor          currentCursor;
+    int                  position;
+    int                  antetLength;
 };
