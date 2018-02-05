@@ -12,7 +12,7 @@ QCompleter *ssAdvisor::getCompleter(void)
 {
     if(!completer)
     {
-        QFile TextFile("/home/adrian/SO/SenseShell/Business/wordlist.txt");
+        QFile TextFile("Business/wordlist.txt");
         TextFile.open(QIODevice::ReadOnly);
         while(!TextFile.atEnd())
         {
@@ -39,8 +39,5 @@ void ssAdvisor::reviseCompleter(void)
 {
     QStringListModel *model = new QStringListModel();
     model->setStringList(suggestions);
-
-    qDebug("==============================================<"); 
     completer->setModel(model);
-    qDebug("==============================================<");
 }

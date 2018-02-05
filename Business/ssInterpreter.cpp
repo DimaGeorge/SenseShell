@@ -14,6 +14,7 @@
 #include <fcntl.h>
 #include <QFile>
 #include <QTextStream>
+#include <time.h>   
 int ssInterpreter::ChildPid = 0;
 
 void ssInterpreter::cdProcedure(QString command)
@@ -55,6 +56,12 @@ void ssInterpreter::pipeReader(int fd)
 void ssInterpreter::execute(QString command)
 {
     QString obuff;
+    if (command.isEmpty())
+    {
+        ssBusinessManager::produceOutput(obuff);
+        return;
+    }
+
     if (command.indexOf("cd") != -1)
     {
         cdProcedure(command);
@@ -124,7 +131,7 @@ void ssInterpreter::execute(QString command)
                 if(WEXITSTATUS(status) == 5)
                 {
                     wait(&status);
-                    ssBusinessManager::produceOutput(QString("In spatele unei erori a computer-ului sunt cel putin 2 erori umane, una fiind aceea de a da vina pe computer."));
+                    ssBusinessManager::produceOutput(ssInterpreter::getFunnyErrorMessage());
                 }
             }
         }
@@ -153,4 +160,50 @@ void ssInterpreter::stopAnyExecutingCommand(void)
         kill(ChildPid, SIGKILL);
     }
     ChildPid = 0;
+}
+
+QString ssInterpreter::getFunnyErrorMessage(void)
+{
+    srand(time(NULL));
+    switch(rand() % 13)
+    {
+        case 0:
+        return QString("In spatele unei erori a computer-ului sunt cel putin 2 erori umane, una fiind aceea de a da vina pe computer.");
+        
+        case 1:
+        return QString("Prietenee.. ce comanda e asta?");
+
+        case 2:
+        return QString("Too many errors on one line (make fewer).");
+
+        case 3:
+        return QString("Hmm... nope!");
+
+        case 4:
+        return QString("Un program pentru calculator face ceea ce ii spui tu sa faca, nu ceea ce vrei tu sa faca.");
+
+        case 5:
+        return QString("Erorile nedetectabile sunt infinite in varietate, spre deosebire de erorile detectabile care sunt limitate prin definitie.");
+
+        case 6:
+        return QString("Backup: O operatie care niciodata nu este efectuata la timp.");
+
+        case 7:
+        return QString("Fisier: Acea parte a sistemului care nu poate fi gasita.");
+
+        case 8:
+        return QString("Un afisaj digital furnizeaza informatii gresite cu o precizie mai mare decat a fost posibil anterior.");
+
+        case 9:
+        return QString("Inteligenta artificiala nu se poate compara cu prostia naturala.");
+
+        case 10:
+        return QString("Toate computerele asteapta cu aceiasi viteza.");
+
+        case 11:
+        return QString("Computerele nu gresesc, ele o fac intentionat.");
+
+        default:
+        return QString("Comanda cu continut neadecvat.");
+    }
 }
