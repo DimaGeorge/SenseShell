@@ -12,7 +12,7 @@ QCompleter *ssAdvisor::getCompleter(void)
 {
     if(!completer)
     {
-        QFile TextFile("/root/SenseShell/Business/wordlist.txt");
+        QFile TextFile("/home/adrian/SO/SenseShell/Business/wordlist.txt");
         TextFile.open(QIODevice::ReadOnly);
         while(!TextFile.atEnd())
         {

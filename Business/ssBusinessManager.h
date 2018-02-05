@@ -4,6 +4,7 @@
 #include <ssStatusTable.h>
 #include <ssAdvisor.h>
 #include <QStringList>
+#include <QMutex>
 
 class ssBusinessManager
 {
@@ -16,12 +17,14 @@ public:
 
     void setInputBuffer(QString command);
     QString getOutputBuffer(void);
-
+    static bool commandIsBeingExecuted (void) {return executingComand;}
+    static bool isOutputBufferEmpty(void) {return obuff.isEmpty();}
+    static void produceOutput(QString);
 private:
+    static QMutex mutexOutputBuffer;
     static QString ibuff;
     static QString obuff;
-    static bool semaforComanda;
-
+    static bool executingComand;
     ssBusinessManager();
     ~ssBusinessManager();
 
